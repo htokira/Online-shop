@@ -43,6 +43,28 @@
 
                         <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
                             <ul class="navbar-nav">
+                                {% if user.is_authenticated %}
+                                    <li class="nav-item">
+                                        <span class="nav-link" style="color: #ff3368;">Привіт, {{ user.username }}!</span>
+                                    </li>
+
+                                    {% if user.is_staff %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Адмін-панель</a>
+                                        </li>
+                                    {% endif %}
+
+                                    <li class="nav-item">
+                                        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="nav-link" style="background:none; border:none; cursor:pointer;">Вийти</button>
+                                        </form>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                                    </li>
+                                {% endif %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="index.html">Home</a>
                                 </li>
