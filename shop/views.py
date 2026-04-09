@@ -3,6 +3,9 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Product, Category
 
+def index(request):
+    return render(request, 'shop/index.html')
+
 def product_list(request):
     products = Product.objects.filter(available=True)
     categories = Category.objects.all()
