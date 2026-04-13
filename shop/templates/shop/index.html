@@ -1,78 +1,73 @@
 {% extends "shop/base.html" %}
 {% load static %}
 {% block content %}
-    <!-- breadcrumb part start-->
-    <section class="breadcrumb_part">
+    <!-- banner part start-->
+    <section class="banner_part">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb_iner">
-                        <h2>product list</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- breadcrumb part end-->
-    
-    <!-- product list part start-->
-    <section class="product_list section_padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="product_sidebar">
-                        <form method="GET" action="">
-                            <div class="single_sedebar">
-                                <input type="text" name="q" placeholder="Пошук товару..." value="{{ search_query }}" class="form-control mb-3">
-                            </div>
-                        
-                            <div class="single_sedebar">
-                                <select name="category" class="form-control mb-3">
-                                    <option value="">Усі категорії</option>
-                                    {% for cat in categories %}
-                                        <option value="{{ cat.id }}" {% if current_category == cat.id|stringformat:"s" %}selected{% endif %}>
-                                            {{ cat.name }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        
-                            <div class="single_sedebar">
-                                <select name="sort" class="form-control mb-3">
-                                    <option value="">Сортувати за...</option>
-                                    <option value="price_asc" {% if current_sort == 'price_asc' %}selected{% endif %}>Від дешевих до дорогих</option>
-                                    <option value="price_desc" {% if current_sort == 'price_desc' %}selected{% endif %}>Від дорогих до дешевих</option>
-                                </select>
-                            </div>
-                        
-                            <button type="submit" class="btn_3">Застосувати</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="product_list">
-                        <div class="row">
-                            {% for product in products %}
-                                <div class="col-lg-6 col-sm-6">
-                                    <div class="single_product_item">
-                                        <img src="{% static 'shop/img/product/product_list_1.png' %}" alt="#" class="img-fluid">
-                                        <h3> <a href="#">{{ product.name }}</a> </h3>
-                                        <p>{{ product.price }} грн</p>
-                                    </div>
-                                </div>
-                            {% empty %}
-                                <div class="col-12 text-center mt-5 mb-5">
-                                    <h4>За вашим запитом нічого не знайдено</h4>
-                                </div>
-                            {% endfor %}
+            <div class="row align-items-center">
+                <div class="col-md-5">
+                    <div class="banner_text">
+                        <div class="banner_text_iner">
+                            <h1>Best quality
+                                pillow</h1>
+                            <p>Seamlessly empower fully researched 
+                                growth strategies and interoperable internal</p>
+                            <a href="{% url 'shop:product_list' %}" class="btn_1">shop now</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="banner_img">
+            <img src="img/banner.png" alt="#" class="img-fluid">
+            <img src="img/banner_pattern.png " alt="#" class="pattern_img img-fluid">
+        </div>
     </section>
-    <!-- product list part end-->
-    
+    <!-- banner part start-->
+
+    <!-- product list start-->
+    <section class="single_product_list">
+        <div class="container">
+            <div class="container">
+                <div class="row">
+                    {% for product in featured_products %}
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="single_product_item">
+                            <div class="single_product_item_thumb">
+                                <img src="{% static 'shop/img/product/product_list_1.png' %}" alt="#" class="img-fluid">
+                            </div>
+                            <h3> <a href="#">{{ product.name }}</a> </h3>
+                            <p>Від {{ product.price }} грн</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- product list end-->
+
+
+    <!-- trending item start-->
+    <section class="trending_items">
+        <div class="container">
+            <div class="row">
+                {% for product in trending_products %}
+                <div class="col-lg-4 col-sm-6">
+                    <div class="single_product_item">
+                        <div class="single_product_item_thumb">
+                            <img src="{% static 'shop/img/product/product_list_1.png' %}" alt="#" class="img-fluid">
+                        </div>
+                        <h3> <a href="#">{{ product.name }}</a> </h3>
+                        <p>Від {{ product.price }} грн</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- trending item end-->
+
     <!-- client review part here -->
     <section class="client_review">
         <div class="container">
@@ -106,6 +101,7 @@
         </div>
     </section>
     <!-- client review part end -->
+
 
     <!-- feature part here -->
     <section class="feature_part section_padding">
@@ -153,23 +149,4 @@
         </div>
     </section>
     <!-- feature part end -->
-
-    <!-- subscribe part here -->
-    <section class="subscribe_part section_padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="subscribe_part_content">
-                        <h2>Get promotions & updates!</h2>
-                        <p>Seamlessly empower fully researched growth strategies and interoperable internal or “organic” sources credibly innovate granular internal .</p>
-                        <div class="subscribe_form">
-                            <input type="email" placeholder="Enter your mail">
-                            <a href="#" class="btn_1">Subscribe</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- subscribe part end -->
 {% endblock %}

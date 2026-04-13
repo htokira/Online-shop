@@ -3,6 +3,17 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Product, Category
 
+def index(request):
+    featured_products = Product.objects.filter(available=True).order_by('-id')[:3]
+    trending_products = Product.objects.filter(available=True)[:6]
+
+    context = {
+        'featured_products': featured_products,
+        'trending_products': trending_products,
+    }
+    
+    return render(request, 'shop/index.html', context)
+
 def product_list(request):
     products = Product.objects.filter(available=True)
     categories = Category.objects.all()
