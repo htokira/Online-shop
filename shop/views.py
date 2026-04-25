@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Product, Category
+from .forms import UserRegisterForm
 
 def index(request):
     featured_products = Product.objects.filter(available=True).order_by('-id')[:3]
@@ -47,14 +48,14 @@ def product_list(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-
+        form = UserRegisterForm(request.POST) 
+        
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('shop:product_list')
     else:
-        form = UserCreationForm()
+        form = UserRegisterForm()
         
     return render(request, 'registration/register.html', {'form': form})
 
