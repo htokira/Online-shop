@@ -44,13 +44,13 @@
                         <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
                             <ul class="navbar-nav">
                                 {% if user.is_authenticated %}
-                                    <li class="nav-item">
-                                        <span class="nav-link" style="color: #ff3368;">Привіт, {{ user.username }}!</span>
-                                    </li>
-
                                     {% if user.is_staff %}
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Адмін-панель</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'shop:profile' %}">Мій кабінет ({{ user.username }})</a>
                                         </li>
                                     {% endif %}
 
@@ -88,10 +88,6 @@
                                         pages
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="{% url 'login' %}"> 
-                                            login
-                                            
-                                        </a>
                                         <a class="dropdown-item" href="checkout.html">product checkout</a>
                                         <a class="dropdown-item" href="cart.html">shopping cart</a>
                                         <a class="dropdown-item" href="confirmation.html">confirmation</a>
