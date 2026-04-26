@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.urls import reverse
+from django.contrib.auth.models import User
 from .models import Category, Product
 
 class ProductModelTest(TestCase):
@@ -39,4 +41,33 @@ class ShopViewsTest(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'shop/index.html')
 
+class AuthenticationTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='testuser',
+            email='test@example.com',
+            password='TestPassword123!'
+        )
     
+    def test_login_page_loads(self):
+        response = self.client.get(reverse('login'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'registration/login.html')
+
+    def test_login_successful(self):
+        response = self.client.post(reverse('login'), {
+            'username': 'testuser',
+            'password': 'TestPassword123!'
+        })
+        self.assertEqual(response.status_code, 302)
+
+        self.assertTrue('_auth_user_id' in self.client.session)
+
+    def test_login_failed(self):
+        response = self.client.post(reverse('login'), {
+            'username': 'testuser',
+            'password': 'WrongPassword!'
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse('_auth_user_id' in self.client.session)
