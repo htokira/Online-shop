@@ -71,3 +71,15 @@ class AuthenticationTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertFalse('_auth_user_id' in self.client.session)
+
+    def test_registration_successful(self):
+        response = self.client.post(reverse('shop:register'), {
+            'username': 'new_user',
+            'email': 'new@example.com',
+            'password1': 'NewPassword123!',
+            'password2': 'NewPassword123!',
+        })
+        self.assertEqual(response.status_code, 302)
+        
+        user_exists = User.objects.filter(username='new_user').exists()
+        self.assertTrue(user_exists)
