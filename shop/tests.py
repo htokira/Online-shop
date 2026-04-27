@@ -83,3 +83,63 @@ class AuthenticationTests(TestCase):
         
         user_exists = User.objects.filter(username='new_user').exists()
         self.assertTrue(user_exists)
+
+class ProductListViewTest(TestCase):
+    
+    def setUp(self):
+
+        self.category1 = Category.objects.create(name="Подушки")
+        self.category2 = Category.objects.create(name="Аксесуари для подушок")
+
+        self.product1 = Product.objects.create(
+            category=self.category1, name="Ортопедична подушка", price=3000, available=True)
+        self.product2 = Product.objects.create(
+            category=self.category1, name="Квадратна подушка", price=1500, available=True)
+        self.product3 = Product.objects.create(
+            category=self.category1, name="Еко-подушка", price=4000, available=True)
+        self.product4 = Product.objects.create(
+            category=self.category2, name="Шовкова наволочка", price=5000, available=True)
+        
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(reverse('shop:product_list'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_search_by_name(self):
+        response = self.client.get(reverse('shop:product_list') + '?q=Ортопед')
+        products = response.context['products'] 
+        
+        self.assertEqual(len(products), 1)
+        self.assertEqual(products[0].name, "Ортопедична подушка")
+
+    def test_filter_by_category(self):
+        response = self.client.get(reverse('shop:product_list') + f'?category={self.category1.id}')
+        products = response.context['products']
+        
+        self.assertEqual(len(products), 3) 
+        self.assertNotIn(self.product4, products)
+
+    def test_sorting_by_price_desc(self):
+        response = self.client.get(reverse('shop:product_list') + '?sort=price_desc')
+        
+        products = list(response.context['products']) 
+        
+        self.assertEqual(products[0].name, "Шовкова наволочка")
+        self.assertEqual(products[1].name, "Еко-подушка")
+        self.assertEqual(products[2].name, "Ортопедична подушка")
+        self.assertEqual(products[3].name, "Квадратна подушка")
+    
+    def test_sorting_by_price_asc(self):
+        response = self.client.get(reverse('shop:product_list') + '?sort=price_asc')
+        products = list(response.context['products']) 
+        
+        self.assertEqual(products[0].name, "Квадратна подушка")
+        self.assertEqual(products[1].name, "Ортопедична подушка")
+        self.assertEqual(products[2].name, "Еко-подушка")
+        self.assertEqual(products[3].name, "Шовкова наволочка")
+
+    def test_search_no_results(self):
+        response = self.client.get(reverse('shop:product_list') + '?q=Мене тут немає')
+        products = response.context['products'] 
+        
+        self.assertEqual(len(products), 0)
+        self.assertContains(response, "За вашим запитом нічого не знайдено")
