@@ -127,3 +127,12 @@ class ProductListViewTest(TestCase):
         self.assertEqual(products[1].name, "Еко-подушка")
         self.assertEqual(products[2].name, "Ортопедична подушка")
         self.assertEqual(products[3].name, "Квадратна подушка")
+    
+    def test_sorting_by_price_asc(self):
+        response = self.client.get(reverse('shop:product_list') + '?sort=price_asc')
+        products = list(response.context['products']) 
+        
+        self.assertEqual(products[0].name, "Квадратна подушка")
+        self.assertEqual(products[1].name, "Ортопедична подушка")
+        self.assertEqual(products[2].name, "Еко-подушка")
+        self.assertEqual(products[3].name, "Шовкова наволочка")
