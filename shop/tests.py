@@ -136,3 +136,10 @@ class ProductListViewTest(TestCase):
         self.assertEqual(products[1].name, "Ортопедична подушка")
         self.assertEqual(products[2].name, "Еко-подушка")
         self.assertEqual(products[3].name, "Шовкова наволочка")
+
+    def test_search_no_results(self):
+        response = self.client.get(reverse('shop:product_list') + '?q=Мене тут немає')
+        products = response.context['products'] 
+        
+        self.assertEqual(len(products), 0)
+        self.assertContains(response, "За вашим запитом нічого не знайдено")
