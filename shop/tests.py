@@ -100,3 +100,10 @@ class ProductListViewTest(TestCase):
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get(reverse('shop:product_list'))
         self.assertEqual(response.status_code, 200)
+
+    def test_search_by_name(self):
+        response = self.client.get(reverse('shop:product_list') + '?q=Ортопед')
+        products = response.context['products'] 
+        
+        self.assertEqual(len(products), 1)
+        self.assertEqual(products[0].name, "Ортопедична подушка")
