@@ -83,3 +83,20 @@ class AuthenticationTests(TestCase):
         
         user_exists = User.objects.filter(username='new_user').exists()
         self.assertTrue(user_exists)
+
+class ProductListViewTest(TestCase):
+    
+    def setUp(self):
+
+        self.category1 = Category.objects.create(name="Подушки")
+
+        self.product1 = Product.objects.create(
+            category=self.category1, name="Ортопедична подушка", price=3000, available=True)
+        self.product2 = Product.objects.create(
+            category=self.category1, name="Квадратна подушка", price=1500, available=True)
+        self.product3 = Product.objects.create(
+            category=self.category1, name="Еко-подушка", price=4000, available=True)
+        
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(reverse('shop:product_list'))
+        self.assertEqual(response.status_code, 200)
