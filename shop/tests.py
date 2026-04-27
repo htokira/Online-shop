@@ -89,6 +89,7 @@ class ProductListViewTest(TestCase):
     def setUp(self):
 
         self.category1 = Category.objects.create(name="Подушки")
+        self.category2 = Category.objects.create(name="Аксесуари для подушок")
 
         self.product1 = Product.objects.create(
             category=self.category1, name="Ортопедична подушка", price=3000, available=True)
@@ -96,6 +97,8 @@ class ProductListViewTest(TestCase):
             category=self.category1, name="Квадратна подушка", price=1500, available=True)
         self.product3 = Product.objects.create(
             category=self.category1, name="Еко-подушка", price=4000, available=True)
+        self.product4 = Product.objects.create(
+            category=self.category2, name="Шовкова наволочка", price=5000, available=True)
         
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get(reverse('shop:product_list'))
@@ -107,3 +110,10 @@ class ProductListViewTest(TestCase):
         
         self.assertEqual(len(products), 1)
         self.assertEqual(products[0].name, "Ортопедична подушка")
+
+    def test_filter_by_category(self):
+        response = self.client.get(reverse('shop:product_list') + f'?category={self.category1.id}')
+        products = response.context['products']
+        
+        self.assertEqual(len(products), 3) 
+        self.assertNotIn(self.product4, products)
