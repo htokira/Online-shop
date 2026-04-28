@@ -65,13 +65,9 @@
                                         <p>{{ product.price }} грн</p>
 
                                         <div class="add_to_cart_block" style="margin-top: 10px;">
-                                            <form action="#" method="post">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="product_id" value="{{ product.id }}">
-                                                <button type="submit" class="btn_3" style="padding: 10px 20px; font-size: 12px;">
-                                                    + Додати в кошик
-                                                </button>
-                                            </form>
+                                            <a href="{% url 'shop:cart_add_one' product.id %}" class="btn_3" style="padding: 10px 20px; font-size: 12px; display: inline-block;">
+                                                + Додати в кошик
+                                            </a>
                                         </div>
                                         
                                     </div>

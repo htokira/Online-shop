@@ -90,8 +90,9 @@
                 </table>
                 <div class="checkout_btn_inner float-right">
                     <a class="btn_1" href="{% url 'shop:product_list' %}">Продовжити покупки</a>
+    
                     {% if cart_items %}
-                        <a class="btn_1 checkout_btn_1" href="#">Оформити замовлення</a>
+                        <a class="btn_1 checkout_btn_1" href="{% url 'shop:order_create' %}">Оформити замовлення</a>
                     {% endif %}
                 </div>
             </div>
