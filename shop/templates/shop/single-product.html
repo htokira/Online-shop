@@ -16,46 +16,47 @@
   <!-- breadcrumb part end-->
 
   <!--================Single Product Area =================-->
-  <div class="product_image_area section_padding">
+  <div class="product_image_area">
     <div class="container">
-      <div class="row s_product_inner justify-content-between">
+      <div class="row justify-content-center">
         
-        <div class="col-lg-6 col-xl-6">
-          <div class="product_slider_img">
-            <div id="vertical">
+        <div class="col-lg-12 text-center">
+          <div class="single_product_img">
               {% if product.image %}
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid" style="max-width: 100%; height: auto;">
               {% else %}
                   <img src="{% static 'shop/img/product/single_product.png' %}" alt="{{ product.name }}" class="img-fluid">
               {% endif %}
-            </div>
           </div>
         </div>
         
-        <div class="col-lg-5 col-xl-4">
-          <div class="s_product_text">
+        <div class="col-lg-8">
+          <div class="single_product_text text-center">
             <h3>{{ product.name }}</h3>
-            <h2>{{ product.price }} грн</h2>
-            <ul class="list">
-              <li>
-                <a class="active" href="#">
-                  <span>Категорія</span> : {{ product.category.name }}</a>
-              </li>
-              <li>
-                <a href="#"> <span>Наявність</span> : {% if product.available %}В наявності{% else %}Немає в наявності{% endif %}</a>
-              </li>
-            </ul>
+            
             <p>
-                Товар
+                {% if product.description %}
+                    {{ product.description }}
+                {% else %}
+                    Опис для цього товару ще не додано.
+                {% endif %}
             </p>
-            <div class="card_area d-flex justify-content-between align-items-center">
-              <div class="product_count">
-                <span class="inumber-decrement"> <i class="ti-minus"></i></span>
-                <input class="input-number" type="text" value="1" min="0" max="10">
-                <span class="number-increment"> <i class="ti-plus"></i></span>
-              <div class="add_to_cart">
-                  <a href="#" class="btn_3">add to cart</a>
+            
+            <div class="card_area">
+                <div class="product_count_area d-flex justify-content-center align-items-center">
+                    <p class="mb-0 mr-3">Кількість</p>
+                    <div class="product_count d-inline-block">
+                        <span class="product_count_item inumber-decrement"> <i class="ti-minus"></i></span>
+                        <input class="product_count_item input-number" type="text" value="1" min="1" max="10">
+                        <span class="product_count_item number-increment"> <i class="ti-plus"></i></span>
+                    </div>
+                    <p class="mb-0 ml-3">{{ product.price }} грн</p>
+                </div>
+              <div class="add_to_cart mt-4">
+                  <a href="#" class="btn_3">Додати до корзини</a>
               </div>
+            </div>
+            
           </div>
         </div>
         
