@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from .models import Product, Category, OrderItem  # Об'єднали моделі
-from .forms import UserRegisterForm, OrderCreateForm  # Об'єднали форми
 from django.http import JsonResponse
+
+# Додано Order в імпорт моделей
+from .models import Product, Category, Order, OrderItem 
+from .forms import UserRegisterForm, OrderCreateForm
+
+# --- Загальні сторінки ---
 
 def index(request):
     featured_products = Product.objects.filter(available=True).order_by('-id')[:3]
@@ -13,7 +17,6 @@ def index(request):
         'featured_products': featured_products,
         'trending_products': trending_products,
     }
-    
     return render(request, 'shop/index.html', context)
 
 def product_list(request):
@@ -42,38 +45,38 @@ def product_list(request):
         'current_category': category_id,
         'current_sort': sort_by,
     }
-    
     return render(request, 'shop/product_list.html', context)
+
+# --- Авторизація та профілі ---
 
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST) 
-        
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('shop:product_list')
     else:
         form = UserRegisterForm()
-        
     return render(request, 'registration/register.html', {'form': form})
 
-@login_required 
+@login_required(login_url='/accounts/login/')
 def profile(request):
     return render(request, 'shop/profile.html')
 
+# --- Оформлення замовлення ---
+
+@login_required(login_url='/accounts/login/')
 def order_create(request):
     cart = request.session.get('cart', {})
     
-    # Якщо кошик порожній, не даємо оформлювати замовлення
     if not cart:
         return redirect('shop:product_list')
 
-    # Підготовка даних для відображення в правій частині (чекаут)
     cart_items = []
     total_price = 0
     for product_id, quantity in cart.items():
-        product = Product.objects.get(id=product_id)
+        product = get_object_or_404(Product, id=product_id)
         item_total = product.price * quantity
         total_price += item_total
         cart_items.append({
@@ -85,13 +88,10 @@ def order_create(request):
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
-            # 1. Створюємо замовлення
             order = form.save(commit=False)
-            if request.user.is_authenticated:
-                order.user = request.user
+            order.user = request.user
             order.save()
 
-            # 2. Переносимо товари з кошика в OrderItem
             for item in cart_items:
                 OrderItem.objects.create(
                     order=order,
@@ -100,24 +100,21 @@ def order_create(request):
                     quantity=item['quantity']
                 )
             
-            # 3. Очищаємо кошик
             request.session['cart'] = {}
-            
-            # 4. Сторінка успіху
             return render(request, 'shop/order_created.html', {'order': order})
     else:
         form = OrderCreateForm()
     
-    # Передаємо cart_items та total_price, щоб шаблон їх побачив
     return render(request, 'shop/order_create_form.html', {
         'cart_items': cart_items, 
         'total_price': total_price, 
         'form': form
     })
 
+# --- Робота з кошиком ---
+
 def cart_detail(request):
     cart = request.session.get('cart', {})
-    # Логіка відображення кошика
     products = Product.objects.filter(id__in=cart.keys())
 
     cart_items = []
@@ -184,6 +181,7 @@ def cart_remove_one(request, product_id):
         })
 
     return redirect('shop:cart_detail')
+
 def cart_remove_all(request, product_id):
     cart = request.session.get('cart', {})
     product_id_str = str(product_id)
@@ -194,7 +192,6 @@ def cart_remove_all(request, product_id):
     request.session['cart'] = cart
     request.session.modified = True
     
-    # Додаємо підтримку AJAX для повного видалення рядка
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         total_cart_price = sum(Product.objects.get(id=int(pid)).price * qty for pid, qty in cart.items())
         return JsonResponse({
@@ -205,3 +202,24 @@ def cart_remove_all(request, product_id):
         })
 
     return redirect('shop:cart_detail')
+
+# --- Новий функціонал: Замовлення користувача ---
+
+@login_required(login_url='/accounts/login/')
+def user_orders(request):
+    # Отримуємо всі замовлення саме цього користувача
+    orders = request.user.orders.all().order_by('-created')
+    return render(request, 'shop/user_orders.html', {'orders': orders})
+
+@login_required(login_url='/accounts/login/')
+def confirm_order_receipt(request, order_id):
+    # Шукаємо замовлення за ID, перевіряючи, що воно належить поточному юзеру
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    
+    # Змінюємо статус на "received" (Отримано)
+    # Важливо: в моделі Order у STATUS_CHOICES має бути значення 'delivered' та 'received'
+    if order.status == 'delivered': 
+        order.status = 'received'
+        order.save()
+        
+    return redirect('shop:user_orders')
