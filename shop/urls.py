@@ -15,5 +15,7 @@ urlpatterns = [
     path('cart/add/<int:product_id>/', views.cart_add, name='cart_add_one'), # Зверни увагу на name
     path('cart/remove/<int:product_id>/', views.cart_remove_one, name='cart_remove_one'),
     path('cart/delete/<int:product_id>/', views.cart_remove_all, name='cart_remove_all'),
-    path('product/<int:product_id>/', views.product_detail, name='product_detail')
+    path('product/<int:product_id>/', views.product_detail, name='product_detail'),
+    path('my-orders/', views.user_orders, name='user_orders'),
+    path('order/<int:order_id>/confirm/', views.confirm_order_receipt, name='confirm_order'),
 ]

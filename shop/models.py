@@ -43,6 +43,17 @@ class CartItem(models.Model):
         unique_together = ('cart', 'product')
 
 class Order(models.Model):
+    STATUS_CHOICES = [
+        ('created', 'Створено'),
+        ('shipped', 'Відправлено'),
+        ('delivered', 'Доставлено'),
+        ('received', 'Отримано'),
+    ]
+    status = models.CharField(
+        max_length=20, 
+        choices=STATUS_CHOICES, 
+        default='created'
+    )
     user = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
