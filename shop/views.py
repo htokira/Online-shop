@@ -19,6 +19,9 @@ def index(request):
     }
     return render(request, 'shop/index.html', context)
 
+def about(request):
+    return render(request, 'shop/about.html')
+
 def product_list(request):
     products = Product.objects.filter(available=True)
     categories = Category.objects.all()
