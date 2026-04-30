@@ -106,14 +106,30 @@ def order_create(request):
             request.session['cart'] = {}
             return render(request, 'shop/order_created.html', {'order': order})
     else:
-        form = OrderCreateForm()
+        # --- МАГІЯ АВТОЗАПОВНЕННЯ (ВИПРАВЛЕНО) ---
+        initial_data = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+        }
+        
+        # Перевіряємо, чи є у користувача профіль
+        if hasattr(request.user, 'profile'):
+            # Зліва назва як у ФОРМІ ('phone'), справа як у МОДЕЛІ PROFILE ('phone_number')
+            initial_data['phone'] = request.user.profile.phone_number
+            
+            # Якщо в профілі є ще й адреса, вона підтягнеться теж
+            if hasattr(request.user.profile, 'address'):
+                initial_data['address'] = request.user.profile.address
+        
+        # Передаємо ці дані у форму
+        form = OrderCreateForm(initial=initial_data)
     
     return render(request, 'shop/order_create_form.html', {
         'cart_items': cart_items, 
         'total_price': total_price, 
         'form': form
     })
-
 # --- Робота з кошиком ---
 
 def cart_detail(request):
