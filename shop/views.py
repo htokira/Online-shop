@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
@@ -62,3 +62,8 @@ def register(request):
 @login_required 
 def profile(request):
     return render(request, 'shop/profile.html')
+
+def product_detail(request, product_id):
+    # Шукаємо товар за ID, або видаємо помилку 404, якщо такого немає
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, 'shop/single-product.html', {'product': product})

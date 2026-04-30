@@ -61,7 +61,7 @@
                                             <img src="{% static 'shop/img/product/product_list_1.png' %}" alt="#" class="img-fluid">
                                         {% endif %}
 
-                                        <h3> <a href="#">{{ product.name }}</a> </h3>
+                                        <h3> <a href="{% url 'shop:product_detail' product.id %}">{{ product.name }}</a> </h3>
                                         <p>{{ product.price }} грн</p>
                                     </div>
                                 </div>
