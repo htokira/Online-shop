@@ -66,4 +66,4 @@ def profile(request):
 def product_detail(request, product_id):
     # Шукаємо товар за ID, або видаємо помилку 404, якщо такого немає
     product = get_object_or_404(Product, id=product_id)
-    return render(request, 'shop/single_product.html', {'product': product})
+    return render(request, 'shop/single-product.html', {'product': product})
