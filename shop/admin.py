@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Cart, CartItem, Order, OrderItem
+from .models import Category, Product, Cart, CartItem, Order, OrderItem, Profile
 
 # Register your models here.
 @admin.register(Category)
@@ -40,3 +40,7 @@ class OrderAdmin(admin.ModelAdmin):
     
     search_fields = ['first_name', 'last_name', 'address']
     inlines = [OrderItemInline]
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'phone_number']
