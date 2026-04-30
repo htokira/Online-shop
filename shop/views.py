@@ -205,3 +205,7 @@ def cart_remove_all(request, product_id):
         })
 
     return redirect('shop:cart_detail')
+def product_detail(request, product_id):
+    # Шукаємо товар за ID, або видаємо помилку 404, якщо такого немає
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, 'shop/single-product.html', {'product': product})
