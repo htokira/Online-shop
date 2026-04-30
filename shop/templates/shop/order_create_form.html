@@ -1,0 +1,82 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="breadcrumb_part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner">
+                    <h2>Оформлення замовлення</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="checkout_area section_padding">
+    <div class="container">
+        <div class="billing_details">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h3>Деталі оплати</h3>
+                    <form class="row contact_form" action="." method="post">
+                        {% csrf_token %}
+                        <div class="col-md-6 form-group p_star">
+                            <label>Ім'я</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="col-md-6 form-group p_star">
+                            <label>Прізвище</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="col-md-6 form-group p_star">
+                            <label>Email</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="col-md-6 form-group p_star">
+                            <label>Телефон</label>
+                            {{ form.phone }}
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                            <label>Адреса доставки</label>
+                            {{ form.address }}
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" class="btn_3">Підтвердити замовлення</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="order_box">
+                        <h2>Ваше замовлення</h2>
+                        <ul class="list">
+                            <li>
+                                <a href="#">Товар <span>Разом</span></a>
+                            </li>
+                            <hr>
+                            {% for item in cart_items %}
+                            <li>
+                                <a href="#">{{ item.product.name }} 
+                                    <span class="middle">x {{ item.quantity }}</span>
+                                    <span class="last">{{ item.total_price }} грн</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        
+                        <ul class="list list_2">
+                            <hr>
+                            <li>
+                                <a href="#">Загалом 
+                                    <span style="color: #ff3368; font-weight: bold;">{{ total_price }} грн</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

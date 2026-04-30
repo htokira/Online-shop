@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Online shop</title>
-    <link rel="icon" href="img/favicon.png">
+    <link rel="icon" href="{% static 'shop/img/favicon.png' %}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'shop/css/bootstrap.min.css' %}">
     <!-- animate CSS -->
@@ -87,7 +87,7 @@
                             </ul>
                         </div>
                         <div class="hearer_icon d-flex align-items-center">
-                            <a href="cart.html">
+                            <a href="{% url 'shop:cart_detail' %}">
                                 <i class="flaticon-shopping-cart-black-shape"></i>
                             </a>
                         </div>

@@ -61,8 +61,15 @@
                                             <img src="{% static 'shop/img/product/product_list_1.png' %}" alt="#" class="img-fluid">
                                         {% endif %}
 
-                                        <h3> <a href="#">{{ product.name }}</a> </h3>
+                                        <h3> <a href="{% url 'shop:product_detail' product.id %}">{{ product.name }}</a> </h3>
                                         <p>{{ product.price }} грн</p>
+
+                                        <div class="add_to_cart_block" style="margin-top: 10px;">
+                                            <a href="{% url 'shop:cart_add_one' product.id %}" class="btn_3" style="padding: 10px 20px; font-size: 12px; display: inline-block;">
+                                                + Додати в кошик
+                                            </a>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             {% empty %}

@@ -1,0 +1,67 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block content %}
+  <!-- breadcrumb part start-->
+  <section class="breadcrumb_part single_product_breadcrumb">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12">
+                  <div class="breadcrumb_iner">
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- breadcrumb part end-->
+
+  <!--================Single Product Area =================-->
+  <div class="product_image_area">
+    <div class="container">
+      <div class="row justify-content-center">
+        
+        <div class="col-lg-12 text-center">
+          <div class="single_product_img">
+              {% if product.image %}
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid" style="max-width: 100%; height: auto;">
+              {% else %}
+                  <img src="{% static 'shop/img/product/single_product.png' %}" alt="{{ product.name }}" class="img-fluid">
+              {% endif %}
+          </div>
+        </div>
+        
+        <div class="col-lg-8">
+          <div class="single_product_text text-center">
+            <h3>{{ product.name }}</h3>
+            
+            <p>
+                {% if product.description %}
+                    {{ product.description }}
+                {% else %}
+                    Опис для цього товару ще не додано.
+                {% endif %}
+            </p>
+            
+            <div class="card_area">
+                <div class="product_count_area d-flex justify-content-center align-items-center">
+                    <p class="mb-0 mr-3">Кількість</p>
+                    <div class="product_count d-inline-block">
+                        <span class="product_count_item inumber-decrement"> <i class="ti-minus"></i></span>
+                        <input class="product_count_item input-number" type="text" value="1" min="1" max="10">
+                        <span class="product_count_item number-increment"> <i class="ti-plus"></i></span>
+                    </div>
+                    <p class="mb-0 ml-3">{{ product.price }} грн</p>
+                </div>
+              <div class="add_to_cart mt-4">
+                  <a href="#" class="btn_3">Додати до корзини</a>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!--================End Single Product Area =================-->
+{% endblock %}

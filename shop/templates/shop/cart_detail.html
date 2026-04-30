@@ -1,0 +1,147 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="breadcrumb_part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb_iner">
+                    <h2>Кошик покупок</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cart_area section_padding">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Товар</th>
+                            <th scope="col">Ціна</th>
+                            <th scope="col">Кількість</th>
+                            <th scope="col">Загалом</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr id="product-row-{{ item.product.id }}">
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        {% if item.product.image %}
+                                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 100px; height: auto; object-fit: cover;">
+                                        {% else %}
+                                            <img src="{% static 'shop/img/product/product_list_1.png' %}" alt="no image" style="width: 100px;">
+                                        {% endif %}
+                                    </div>
+                                    <div class="media-body">
+                                        <p>{{ item.product.name }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>{{ item.product.price }} грн</h5>
+                            </td>
+                            <td>
+                                <div class="product_count d-flex align-items-center">
+                                    <a href="#" class="btn_3 ajax-change" 
+                                       data-id="{{ item.product.id }}" 
+                                       data-url="{% url 'shop:cart_remove_one' item.product.id %}"
+                                       style="padding: 5px 12px; line-height: 1; min-width: 35px; text-align: center;">-</a>
+                                    
+                                    <input class="input-number qty-input-{{ item.product.id }}" type="text" value="{{ item.quantity }}" readonly 
+                                           style="width: 40px; text-align: center; border: none; background: transparent; font-weight: bold;">
+                                    
+                                    <a href="#" class="btn_3 ajax-change" 
+                                       data-id="{{ item.product.id }}" 
+                                       data-url="{% url 'shop:cart_add_one' item.product.id %}"
+                                       style="padding: 5px 12px; line-height: 1; min-width: 35px; text-align: center;">+</a>
+                                </div>
+                            </td>
+                            <td>
+                                <h5 id="item-total-{{ item.product.id }}">{{ item.total_price }} грн</h5>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                <h4 class="padding_top">Ваш кошик порожній</h4>
+                                <a href="{% url 'shop:product_list' %}" class="btn_3">Перейти до покупок</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>Підсумок</h5>
+                            </td>
+                            <td>
+                                <h5 id="cart-total">{{ total_price }} грн</h5>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="checkout_btn_inner float-right">
+                    <a class="btn_1" href="{% url 'shop:product_list' %}">Продовжити покупки</a>
+    
+                    {% if cart_items %}
+                        <a class="btn_1 checkout_btn_1" href="{% url 'shop:order_create' %}">Оформити замовлення</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.querySelectorAll('.ajax-change').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault(); // Зупиняємо перехід по посиланню
+        
+        const url = this.getAttribute('data-url');
+        const productId = this.getAttribute('data-id');
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest', // Кажемо Django, що це AJAX запит
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'ok') {
+                // 1. Оновлюємо кількість у віконці
+                const qtyInput = document.querySelector(`.qty-input-${productId}`);
+                if (qtyInput) qtyInput.value = data.quantity;
+
+                // 2. Оновлюємо суму за цей товар
+                const itemTotal = document.getElementById(`item-total-${productId}`);
+                if (itemTotal) itemTotal.innerText = data.item_total + ' грн';
+
+                // 3. Оновлюємо фінальний чек
+                document.getElementById('cart-total').innerText = data.total_cart_price + ' грн';
+
+                // 4. Якщо видалили останній товар — прибираємо рядок
+                if (data.quantity === 0) {
+                    const row = document.getElementById(`product-row-${productId}`);
+                    if (row) row.remove();
+                    
+                    // Якщо кошик став зовсім пустим — оновлюємо, щоб показати напис "Пусто"
+                    if (data.total_cart_price === 0) {
+                        location.reload();
+                    }
+                }
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+</script>
+{% endblock %}
