@@ -203,6 +203,7 @@ def cart_remove_all(request, product_id):
 
     return redirect('shop:cart_detail')
 
+
 # --- Новий функціонал: Замовлення користувача ---
 
 @login_required(login_url='/accounts/login/')
@@ -223,3 +224,9 @@ def confirm_order_receipt(request, order_id):
         order.save()
         
     return redirect('shop:user_orders')
+
+def product_detail(request, product_id):
+    # Шукаємо товар за ID, або видаємо помилку 404, якщо такого немає
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, 'shop/single-product.html', {'product': product})
+
