@@ -29,7 +29,14 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'first_name', 'last_name', 'paid', 'created']
-    list_filter = ['paid', 'created']
+    # Додаємо 'status' у список. Тепер він з'явиться в таблиці.
+    list_display = ['id', 'user', 'first_name', 'last_name', 'paid', 'status', 'created']
+    
+    # Додаємо статус у фільтри (справа), щоб зручно було шукати "Нові" чи "Доставлені"
+    list_filter = ['paid', 'created', 'status']
+    
+    # Це дозволить тобі міняти статус просто клацанням мишки в списку
+    list_editable = ['status']
+    
     search_fields = ['first_name', 'last_name', 'address']
     inlines = [OrderItemInline]
