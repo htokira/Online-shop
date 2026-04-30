@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Category, Product
+from .models import Category, Product, Profile
 
 class ProductModelTest(TestCase):
     def setUp(self):
@@ -48,6 +48,7 @@ class AuthenticationTests(TestCase):
             email='test@example.com',
             password='TestPassword123!'
         )
+        Profile.objects.create(user=self.user, phone_number='+380991112233')
     
     def test_login_page_loads(self):
         response = self.client.get(reverse('login'))
@@ -60,7 +61,6 @@ class AuthenticationTests(TestCase):
             'password': 'TestPassword123!'
         })
         self.assertEqual(response.status_code, 302)
-
         self.assertTrue('_auth_user_id' in self.client.session)
 
     def test_login_failed(self):
@@ -76,13 +76,14 @@ class AuthenticationTests(TestCase):
         response = self.client.post(reverse('shop:register'), {
             'username': 'new_user',
             'email': 'new@example.com',
+            'phone_number': '+380991234567',
             'password1': 'NewPassword123!',
             'password2': 'NewPassword123!',
         })
         self.assertEqual(response.status_code, 302)
-        
-        user_exists = User.objects.filter(username='new_user').exists()
-        self.assertTrue(user_exists)
+        user = User.objects.filter(username='new_user').first()
+        self.assertIsNotNone(user)
+        self.assertEqual(user.profile.phone_number, '+380991234567')
 
 class ProductListViewTest(TestCase):
     
