@@ -56,13 +56,6 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="{% url 'shop:user_orders' %}">Мої замовлення</a>
                                     </li>
-                                    
-                                    <li class="nav-item">
-                                        <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                                            {% csrf_token %}
-                                            <button type="submit" class="nav-link" style="background:none; border:none; cursor:pointer;">Вийти</button>
-                                        </form>
-                                    </li>
                                 {% else %}
                                     <li class="nav-item">
                                         <a class="nav-link" href="{% url 'login' %}">Login</a>
@@ -72,20 +65,13 @@
                                     <a class="nav-link" href="{% url 'shop:index' %}">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="about.html">about</a>
+                                    <a class="nav-link" href="{% url 'shop:about' %}">about</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'shop:product_list' %}">Product list</a>
                                 </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        pages
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="checkout.html">product checkout</a>
-                                        <a class="dropdown-item" href="cart.html">shopping cart</a>
-                                    </div>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'shop:cart_detail' %}">Shopping cart</a>
                                 </li>
                             </ul>
                         </div>
@@ -114,12 +100,12 @@
                     <div class="col-lg-8">
                         <div class="footer_menu">
                             <div class="footer_logo">
-                                <a href="index.html"><img src="{% static 'shop/img/logo.png' %}" alt="#"></a>
+                                <a href="{% url 'shop:index' %}"><img src="{% static 'shop/img/logo.png' %}" alt="#"></a>
                             </div>
                             <div class="footer_menu_item">
-                                <a href="index.html">Home</a>
-                                <a href="about.html">About</a>
-                                <a href="product_list.html">Products</a>
+                                <a href="{% url 'shop:index' %}">Home</a>
+                                <a href="{% url 'shop:about' %}">About</a>
+                                <a href="{% url 'shop:product_list' %}">Product List</a>
                             </div>
                         </div>
                     </div>
