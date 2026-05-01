@@ -108,6 +108,7 @@ def order_create(request):
             return render(request, 'shop/order_created.html', {'order': order})
     else:
         # --- МАГІЯ АВТОЗАПОВНЕННЯ (ВИПРАВЛЕНО) ---
+        # 1. Збираємо дані користувача
         initial_data = {
             'first_name': request.user.first_name,
             'last_name': request.user.last_name,
@@ -126,6 +127,12 @@ def order_create(request):
         # Передаємо ці дані у форму
         form = OrderCreateForm(initial=initial_data)
     
+        # 2. Додаємо номер телефону, якщо у користувача є профіль
+        if hasattr(request.user, 'profile'):
+            initial_data['phone'] = request.user.profile.phone_number
+        
+        # 3. Передаємо ці дані у форму при її створенні
+        form = OrderCreateForm(initial=initial_data)
     return render(request, 'shop/order_create_form.html', {
         'cart_items': cart_items, 
         'total_price': total_price, 
