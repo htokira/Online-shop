@@ -45,7 +45,7 @@
                                     <i class="right fas fa-caret-down"></i>
                                 </div>
                                 <div class="select_option_dropdown">
-                                    <p><a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if current_sort %}sort={{ current_sort }}{% endif %}">Усі категорії</a></p>
+                                    <p><a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if current_sort %}sort={{ current_sort }}{% endif %}">All categories</a></p>
                                     {% for cat in categories %}
                                         <p><a href="?category={{ cat.id }}{% if search_query %}&q={{ search_query }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}">
                                             {{ cat.name }}
@@ -68,9 +68,9 @@
                                     <i class="right fas fa-caret-down"></i>
                                 </div>
                                 <div class="select_option_dropdown">
-                                    <p><a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}{% endif %}">За замовчуванням</a></p>
-                                    <p><a href="?sort=price_asc{% if search_query %}&q={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">Від дешевих до дорогих</a></p>
-                                    <p><a href="?sort=price_desc{% if search_query %}&q={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">Від дорогих до дешевих</a></p>
+                                    <p><a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}{% endif %}">By default</a></p>
+                                    <p><a href="?sort=price_asc{% if search_query %}&q={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">From lowest to highest prices</a></p>
+                                    <p><a href="?sort=price_desc{% if search_query %}&q={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">From highest to lowest prices</a></p>
                                 </div>
                             </div>
                         </div>

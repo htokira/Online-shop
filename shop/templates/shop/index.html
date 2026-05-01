@@ -48,7 +48,7 @@
 
                                 <div class="col-lg-5 col-sm-6">
                                     <div class="single_product_content">
-                                        <h5>Від {{ product.price }} uah</h5>
+                                        <h5>From {{ product.price }} uah</h5>
                                         <h2> 
                                             <a href="{% url 'shop:product_detail' product.id %}">
                                                 {{ product.name }}
@@ -93,7 +93,7 @@
                             {% endif %}
                         </div>
                         <h3> <a href="{% url 'shop:product_detail' product.id %}">{{ product.name }}</a> </h3>
-                        <p>Від {{ product.price }} uah</p>
+                        <p>From {{ product.price }} uah</p>
                     </div>
                 </div>
                 {% endfor %}
