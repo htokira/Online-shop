@@ -152,7 +152,7 @@ class CartTests(TestCase):
             category=self.category, 
             name="Товар", 
             price=100.00, 
-            available=True
+            available=True,
             stock=10
         )
 
