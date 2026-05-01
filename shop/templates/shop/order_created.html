@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb_iner">
-                    <h2>Замовлення прийнято!</h2>
+                    <h2>Your order has been confirmed!</h2>
                 </div>
             </div>
         </div>
@@ -19,24 +19,24 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="confirmation_tittle">
-                    <span style="color: #28a745; font-size: 24px;">✓ Дякуємо! Ваше замовлення успішно оформлено.</span>
+                    <span style="color: #28a745; font-size: 24px;">✓ Thank you! Your order has been suc successfully created!</span>
                 </div>
             </div>
             <div class="col-lg-12 mt-4">
                 <div class="single_confirmation_details">
-                    <h4>Інформація про замовлення</h4>
+                    <h4>Information about Your order:</h4>
                     <ul>
-                        <li><p>Номер замовлення</p><span>: #{{ order.id }}</span></li>
-                        <li><p>Дата</p><span>: {{ order.created|date:"d.m.Y H:i" }}</span></li>
+                        <li><p>№</p><span>: #{{ order.id }}</span></li>
+                        <li><p>Date</p><span>: {{ order.created|date:"d.m.Y H:i" }}</span></li>
                         <li><p>Email</p><span>: {{ order.email }}</span></li>
-                        <li><p>Адреса</p><span>: {{ order.address }}</span></li>
+                        <li><p>Adress</p><span>: {{ order.address }}</span></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="row mt-5">
             <div class="col-lg-12">
-                <a href="{% url 'shop:product_list' %}" class="btn_3">Повернутися до покупок</a>
+                <a href="{% url 'shop:product_list' %}" class="btn_3">Return to shopping</a>
             </div>
         </div>
     </div>
