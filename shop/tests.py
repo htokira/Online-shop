@@ -153,6 +153,7 @@ class CartTests(TestCase):
             name="Товар", 
             price=100.00, 
             available=True
+            stock=10
         )
 
     def test_add_to_cart(self):
