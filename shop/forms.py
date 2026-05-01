@@ -32,4 +32,4 @@ class UserRegisterForm(UserCreationForm):
 class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['first_name', 'last_name', 'address'] # Поля, які ми хочемо від юзера
+        fields = ['first_name', 'last_name','email', 'phone', 'address'] # Поля, які ми хочемо від юзера
