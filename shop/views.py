@@ -124,6 +124,10 @@ def order_create(request):
                     price=item['product'].price,
                     quantity=item['quantity']
                 )
+
+                product = item['product']
+                product.stock -= item['quantity']
+                product.save()
             
             request.session['cart'] = {}
             return render(request, 'shop/order_created.html', {'order': order})
