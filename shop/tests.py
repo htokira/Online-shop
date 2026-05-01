@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Category, Product, Profile
+from .models import Category, Product, Profile, Order, OrderItem
 
 class ProductModelTest(TestCase):
     def setUp(self):
@@ -144,3 +144,86 @@ class ProductListViewTest(TestCase):
         
         self.assertEqual(len(products), 0)
         self.assertContains(response, "За вашим запитом нічого не знайдено")
+
+class CartTests(TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(name="Тест")
+        self.product = Product.objects.create(
+            category=self.category, 
+            name="Товар", 
+            price=100.00, 
+            available=True
+        )
+
+    def test_add_to_cart(self):
+        """Тест додавання товару (використовуємо правильне ім'я cart_add_one)"""
+        # Використовуємо 'shop:cart_add_one' згідно з твоїм urls.py
+        response = self.client.post(reverse('shop:cart_add_one', args=[self.product.id]))
+        self.assertEqual(response.status_code, 302) 
+        self.assertIn(str(self.product.id), self.client.session['cart'])
+
+    def test_cart_total_price(self):
+        """Тест підрахунку вартості (використовуємо число 2 замість словника)"""
+        session = self.client.session
+        session['cart'] = {str(self.product.id): 2} # Передаємо просто число
+        session.save()
+        
+        response = self.client.get(reverse('shop:cart_detail'))
+        self.assertEqual(response.status_code, 200)
+        # Перевіряємо, чи в контексті є об'єкт cart і чи вірна сума
+        self.assertEqual(response.context['total_price'], 200.00)
+
+
+class OrderCreateTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='buyer', password='password123')
+        self.user.first_name = "Марія"
+        self.user.save()
+        Profile.objects.create(user=self.user, phone_number='+380501112233')
+        
+        self.category = Category.objects.create(name="Тест")
+        self.product = Product.objects.create(
+            category=self.category, name="Товар", price=100, available=True
+        )
+
+    def test_order_form_initial_data(self):
+        """Тест автозаповнення форми"""
+        # 1. Логінимо користувача
+        self.client.login(username='buyer', password='password123')
+        
+        # 2. Наповнюємо кошик (числом)
+        session = self.client.session
+        session['cart'] = {str(self.product.id): 1}
+        session.save()
+
+        # 3. Робимо запит на сторінку
+        response = self.client.get(reverse('shop:order_create'))
+        
+        # Перевіряємо, чи юзер справді авторизований у цьому запиті
+        self.assertTrue(response.context['user'].is_authenticated)
+        
+        # Перевіряємо значення у формі. 
+        # Якщо first_name знову видасть KeyError, спробуй перевірити 'email' або 'phone'
+        form = response.context['form']
+        self.assertEqual(form.initial.get('first_name'), "Марія")
+        self.assertEqual(form.initial.get('phone'), "+380501112233")
+
+    def test_order_creation_clears_cart(self):
+        """Тест створення замовлення"""
+        self.client.login(username='buyer', password='password123')
+        session = self.client.session
+        session['cart'] = {str(self.product.id): 1}
+        session.save()
+
+        order_data = {
+            'first_name': 'Марія',
+            'last_name': 'Тестова',
+            'email': 'maria@example.com',
+            'phone': '+380501112233',
+            'address': 'Київ'
+        }
+        
+        response = self.client.post(reverse('shop:order_create'), data=order_data)
+        self.assertEqual(Order.objects.count(), 1)
+        # Після замовлення кошик у сесії має стати порожнім словником
+        self.assertEqual(self.client.session['cart'], {})
