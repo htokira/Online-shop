@@ -1,0 +1,36 @@
+{% extends "shop/base.html" %}
+{% block content %}
+<section class="checkout_area section_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3>Update profile</h3>
+                <form class="row contact_form" action="" method="post">
+                    {% csrf_token %}
+                    <div class="col-md-6 form-group p_star">
+                        <label>First name</label>
+                        {{ u_form.first_name }}
+                    </div>
+                    <div class="col-md-6 form-group p_star">
+                        <label>Last name</label>
+                        {{ u_form.last_name }}
+                    </div>
+                    <div class="col-md-12 form-group p_star">
+                        <label>Email</label>
+                        {{ u_form.email }}
+                    </div>
+                    <div class="col-md-12 form-group p_star">
+                        <label>Phone number</label>
+                        {{ p_form.phone_number }}
+                        <small class="text-muted">Format: +380991234567</small>
+                    </div>
+                    
+                    <div class="col-md-12 form-group">
+                        <button type="submit" class="btn_3 mt-3">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

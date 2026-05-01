@@ -21,32 +21,59 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="product_sidebar">
-                        <form method="GET" action="">
-                            <div class="single_sedebar">
-                                <input type="text" name="q" placeholder="Пошук товару..." value="{{ search_query }}" class="form-control mb-3">
-                            </div>
-                        
-                            <div class="single_sedebar">
-                                <select name="category" class="form-control mb-3">
-                                    <option value="">Усі категорії</option>
+                        <div class="single_sedebar">
+                            <form method="GET" action="">
+                                <input type="text" name="q" placeholder="Search..." value="{{ search_query|default:'' }}">
+                                <button type="submit" style="background:none; border:none; position:absolute; right:0px; top:5px;">
+                                    <i class="ti-search"></i>
+                                </button>
+                                {% if current_category %}<input type="hidden" name="category" value="{{ current_category }}">{% endif %}
+                                {% if current_sort %}<input type="hidden" name="sort" value="{{ current_sort }}">{% endif %}
+                            </form>
+                        </div>
+
+                        <div class="single_sedebar">
+                            <div class="select_option">
+                                <div class="select_option_list">
+                                    {% if current_category %}
+                                        {% for cat in categories %}
+                                            {% if cat.id|stringformat:"s" == current_category %}{{ cat.name }}{% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        Category
+                                    {% endif %}
+                                    <i class="right fas fa-caret-down"></i>
+                                </div>
+                                <div class="select_option_dropdown">
+                                    <p><a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if current_sort %}sort={{ current_sort }}{% endif %}">Усі категорії</a></p>
                                     {% for cat in categories %}
-                                        <option value="{{ cat.id }}" {% if current_category == cat.id|stringformat:"s" %}selected{% endif %}>
+                                        <p><a href="?category={{ cat.id }}{% if search_query %}&q={{ search_query }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}">
                                             {{ cat.name }}
-                                        </option>
+                                        </a></p>
                                     {% endfor %}
-                                </select>
+                                </div>
                             </div>
-                        
-                            <div class="single_sedebar">
-                                <select name="sort" class="form-control mb-3">
-                                    <option value="">Сортувати за...</option>
-                                    <option value="price_asc" {% if current_sort == 'price_asc' %}selected{% endif %}>Від дешевих до дорогих</option>
-                                    <option value="price_desc" {% if current_sort == 'price_desc' %}selected{% endif %}>Від дорогих до дешевих</option>
-                                </select>
+                        </div>
+
+                        <div class="single_sedebar">
+                            <div class="select_option">
+                                <div class="select_option_list">
+                                    {% if current_sort == 'price_asc' %}
+                                        Від дешевих
+                                    {% elif current_sort == 'price_desc' %}
+                                        Від дорогих
+                                    {% else %}
+                                        Сортувати за
+                                    {% endif %}
+                                    <i class="right fas fa-caret-down"></i>
+                                </div>
+                                <div class="select_option_dropdown">
+                                    <p><a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}{% endif %}">За замовчуванням</a></p>
+                                    <p><a href="?sort=price_asc{% if search_query %}&q={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">Від дешевих до дорогих</a></p>
+                                    <p><a href="?sort=price_desc{% if search_query %}&q={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">Від дорогих до дешевих</a></p>
+                                </div>
                             </div>
-                        
-                            <button type="submit" class="btn_3">Застосувати</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -84,87 +111,6 @@
         </div>
     </section>
     <!-- product list part end-->
-    
-    <!-- client review part here -->
-    <section class="client_review">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="client_review_slider owl-carousel">
-                        <div class="single_client_review">
-                            <div class="client_img">
-                                <img src="img/client.png" alt="#">
-                            </div>
-                            <p>"Working in conjunction with humanitarian aid agencies, we have supported programmes to help alleviate human suffering.</p>
-                            <h5>- Micky Mouse</h5>
-                        </div>
-                        <div class="single_client_review">
-                            <div class="client_img">
-                                <img src="img/client_1.png" alt="#">
-                            </div>
-                            <p>"Working in conjunction with humanitarian aid agencies, we have supported programmes to help alleviate human suffering.</p>
-                            <h5>- Micky Mouse</h5>
-                        </div>
-                        <div class="single_client_review">
-                            <div class="client_img">
-                                <img src="img/client_2.png" alt="#">
-                            </div>
-                            <p>"Working in conjunction with humanitarian aid agencies, we have supported programmes to help alleviate human suffering.</p>
-                            <h5>- Micky Mouse</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- client review part end -->
-
-    <!-- feature part here -->
-    <section class="feature_part section_padding">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-lg-6">
-                    <div class="feature_part_tittle">
-                        <h3>Credibly innovate granular
-                        internal or organic sources
-                        whereas standards.</h3>
-                    </div>
-                </div>
-                <div class="col-lg-5">
-                    <div class="feature_part_content">
-                        <p>Seamlessly empower fully researched growth strategies and interoperable internal or “organic” sources. Credibly innovate granular internal or “organic” sources whereas high standards in web-readiness.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single_feature_part">
-                        <img src="img/icon/feature_icon_1.svg" alt="#">
-                        <h4>Credit Card Support</h4>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single_feature_part">
-                        <img src="img/icon/feature_icon_2.svg" alt="#">
-                        <h4>Online Order</h4>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single_feature_part">
-                        <img src="img/icon/feature_icon_3.svg" alt="#">
-                        <h4>Free Delivery</h4>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single_feature_part">
-                        <img src="img/icon/feature_icon_4.svg" alt="#">
-                        <h4>Product with Gift</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- feature part end -->
 
     <!-- subscribe part here -->
     <section class="subscribe_part section_padding">
@@ -174,10 +120,18 @@
                     <div class="subscribe_part_content">
                         <h2>Get promotions & updates!</h2>
                         <p>Seamlessly empower fully researched growth strategies and interoperable internal or “organic” sources credibly innovate granular internal .</p>
+                        
                         <div class="subscribe_form">
-                            <input type="email" placeholder="Enter your mail">
-                            <a href="#" class="btn_1">Subscribe</a>
+                            <form action="{% url 'shop:subscribe' %}" method="POST" style="display: flex; width: 100%;">
+                                {% csrf_token %}
+                                <input type="email" name="email" placeholder="Enter your mail" required 
+                                       style="flex-grow: 1; border: 3px solid #f3f1f1; border-radius: 5px; background: transparent; padding-left: 20px;">
+                                <button type="submit" class="btn_1" style="border: none; cursor: pointer;">
+                                    Subscribe
+                                </button>
+                            </form>
                         </div>
+                        
                     </div>
                 </div>
             </div>

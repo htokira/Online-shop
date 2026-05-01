@@ -6,7 +6,7 @@ from django.http import JsonResponse
 
 # Додано Order в імпорт моделей
 from .models import Product, Category, Order, OrderItem, Subscriber
-from .forms import UserRegisterForm, OrderCreateForm
+from .forms import UserRegisterForm, OrderCreateForm, UserUpdateForm, ProfileUpdateForm
 
 # --- Загальні сторінки ---
 
@@ -67,6 +67,27 @@ def register(request):
 @login_required(login_url='/accounts/login/')
 def profile(request):
     return render(request, 'shop/profile.html')
+
+@login_required
+def profile_settings(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
+        
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, "Your profile has been updated!")
+            return redirect('shop:profile_settings')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'shop/profile_settings.html', context)
 
 # --- Оформлення замовлення ---
 

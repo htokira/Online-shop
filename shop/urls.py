@@ -12,6 +12,7 @@ urlpatterns = [
     path('cart/', views.cart_detail, name='cart_detail'),
     path('about/', views.about, name='about'),
     path('subscribe/', views.subscribe, name='subscribe'),
+    path('profile_settings', views.profile_settings, name='profile_settings'),
     
     # Ось ці три рядки врятують ситуацію:
     path('cart/add/<int:product_id>/', views.cart_add, name='cart_add_one'), # Зверни увагу на name
