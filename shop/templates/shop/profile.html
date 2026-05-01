@@ -8,19 +8,19 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="mb-3">Кабінет</h4>
+                        <h4 class="mb-3">Profile</h4>
                         <div class="d-grid gap-2">
                             <a href="{% url 'shop:user_orders' %}" class="btn_3 text-center w-100 mb-2" style="display: block;">
-                                Мої замовлення
+                                My orders
                             </a>
 
                             <a href="{% url 'shop:profile_settings' %}" class="btn_3 text-center w-100 mb-2" style="display: block;">
-                                Налаштування
+                                Settings
                             </a>
 
                             <form action="{% url 'logout' %}" method="post" class="w-100">
                                 {% csrf_token %}
-                                <button type="submit" class="btn_3 w-100">Вийти</button>
+                                <button type="submit" class="btn_3 w-100">Logout</button>
                             </form>
                         </div>
                     </div>
@@ -28,10 +28,10 @@
             </div>
             
             <div class="col-lg-8">
-                <h2>Вітаємо, {{ user.username }}!</h2>
+                <h2>Hello, {{ user.username }}!</h2>
                 <hr>
                 <p><strong>Email:</strong> {{ user.email }}</p>
-                <p><strong>Дата реєстрації:</strong> {{ user.date_joined|date:"d M Y" }}</p>
+                <p><strong>Date of registration:</strong> {{ user.date_joined|date:"d M Y" }}</p>
             </div>
         </div>
     </div>

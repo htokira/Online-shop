@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb_iner">
-                    <h2>Кошик покупок</h2>
+                    <h2>Your cart</h2>
                 </div>
             </div>
         </div>
@@ -21,10 +21,10 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Товар</th>
-                            <th scope="col">Ціна</th>
-                            <th scope="col">Кількість</th>
-                            <th scope="col">Загалом</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Overall</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,7 +45,7 @@
                                 </div>
                             </td>
                             <td>
-                                <h5>{{ item.product.price }} грн</h5>
+                                <h5>{{ item.product.price }} uah</h5>
                             </td>
                             <td>
                                 <div class="product_count d-flex align-items-center">
@@ -64,14 +64,14 @@
                                 </div>
                             </td>
                             <td>
-                                <h5 id="item-total-{{ item.product.id }}">{{ item.total_price }} грн</h5>
+                                <h5 id="item-total-{{ item.product.id }}">{{ item.total_price }} uah</h5>
                             </td>
                         </tr>
                         {% empty %}
                         <tr>
                             <td colspan="4" class="text-center">
-                                <h4 class="padding_top">Ваш кошик порожній</h4>
-                                <a href="{% url 'shop:product_list' %}" class="btn_3">Перейти до покупок</a>
+                                <h4 class="padding_top">Your cart is empty</h4>
+                                <a href="{% url 'shop:product_list' %}" class="btn_3">Return to shopping</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -80,19 +80,19 @@
                             <td></td>
                             <td></td>
                             <td>
-                                <h5>Підсумок</h5>
+                                <h5>Overall</h5>
                             </td>
                             <td>
-                                <h5 id="cart-total">{{ total_price }} грн</h5>
+                                <h5 id="cart-total">{{ total_price }} uah</h5>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="checkout_btn_inner float-right">
-                    <a class="btn_1" href="{% url 'shop:product_list' %}">Продовжити покупки</a>
+                    <a class="btn_1" href="{% url 'shop:product_list' %}">Continue shopping</a>
     
                     {% if cart_items %}
-                        <a class="btn_1 checkout_btn_1" href="{% url 'shop:order_create' %}">Оформити замовлення</a>
+                        <a class="btn_1 checkout_btn_1" href="{% url 'shop:order_create' %}">Create an order</a>
                     {% endif %}
                 </div>
             </div>
@@ -123,10 +123,10 @@ document.querySelectorAll('.ajax-change').forEach(button => {
 
                 // 2. Оновлюємо суму за цей товар
                 const itemTotal = document.getElementById(`item-total-${productId}`);
-                if (itemTotal) itemTotal.innerText = data.item_total + ' грн';
+                if (itemTotal) itemTotal.innerText = data.item_total + ' uah';
 
                 // 3. Оновлюємо фінальний чек
-                document.getElementById('cart-total').innerText = data.total_cart_price + ' грн';
+                document.getElementById('cart-total').innerText = data.total_cart_price + ' uah';
 
                 // 4. Якщо видалили останній товар — прибираємо рядок
                 if (data.quantity === 0) {

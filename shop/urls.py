@@ -14,8 +14,7 @@ urlpatterns = [
     path('subscribe/', views.subscribe, name='subscribe'),
     path('profile_settings', views.profile_settings, name='profile_settings'),
     
-    # Ось ці три рядки врятують ситуацію:
-    path('cart/add/<int:product_id>/', views.cart_add, name='cart_add_one'), # Зверни увагу на name
+    path('cart/add/<int:product_id>/', views.cart_add, name='cart_add_one'),
     path('cart/remove/<int:product_id>/', views.cart_remove_one, name='cart_remove_one'),
     path('cart/delete/<int:product_id>/', views.cart_remove_all, name='cart_remove_all'),
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),

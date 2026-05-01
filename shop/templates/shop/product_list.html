@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb_iner">
-                        <h2>product list</h2>
+                        <h2>Product list</h2>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                                     <i class="right fas fa-caret-down"></i>
                                 </div>
                                 <div class="select_option_dropdown">
-                                    <p><a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if current_sort %}sort={{ current_sort }}{% endif %}">Усі категорії</a></p>
+                                    <p><a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if current_sort %}sort={{ current_sort }}{% endif %}">All categories</a></p>
                                     {% for cat in categories %}
                                         <p><a href="?category={{ cat.id }}{% if search_query %}&q={{ search_query }}{% endif %}{% if current_sort %}&sort={{ current_sort }}{% endif %}">
                                             {{ cat.name }}
@@ -59,18 +59,18 @@
                             <div class="select_option">
                                 <div class="select_option_list">
                                     {% if current_sort == 'price_asc' %}
-                                        Від дешевих
+                                        From lowest price to highest
                                     {% elif current_sort == 'price_desc' %}
-                                        Від дорогих
+                                        From highest price to lowest
                                     {% else %}
-                                        Сортувати за
+                                        Sort by
                                     {% endif %}
                                     <i class="right fas fa-caret-down"></i>
                                 </div>
                                 <div class="select_option_dropdown">
-                                    <p><a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}{% endif %}">За замовчуванням</a></p>
-                                    <p><a href="?sort=price_asc{% if search_query %}&q={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">Від дешевих до дорогих</a></p>
-                                    <p><a href="?sort=price_desc{% if search_query %}&q={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">Від дорогих до дешевих</a></p>
+                                    <p><a href="?{% if search_query %}q={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}{% endif %}">By default</a></p>
+                                    <p><a href="?sort=price_asc{% if search_query %}&q={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">From lowest to highest prices</a></p>
+                                    <p><a href="?sort=price_desc{% if search_query %}&q={{ search_query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">From highest to lowest prices</a></p>
                                 </div>
                             </div>
                         </div>
@@ -89,11 +89,11 @@
                                         {% endif %}
 
                                         <h3> <a href="{% url 'shop:product_detail' product.id %}">{{ product.name }}</a> </h3>
-                                        <p>{{ product.price }} грн</p>
+                                        <p>{{ product.price }} uah</p>
 
                                         <div class="add_to_cart_block" style="margin-top: 10px;">
                                             <a href="{% url 'shop:cart_add_one' product.id %}" class="btn_3" style="padding: 10px 20px; font-size: 12px; display: inline-block;">
-                                                + Додати в кошик
+                                                + Add to cart
                                             </a>
                                         </div>
                                         
@@ -101,7 +101,7 @@
                                 </div>
                             {% empty %}
                                 <div class="col-12 text-center mt-5 mb-5">
-                                    <h4>За вашим запитом нічого не знайдено</h4>
+                                    <h4>No products found</h4>
                                 </div>
                             {% endfor %}
                         </div>

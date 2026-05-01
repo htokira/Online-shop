@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb_iner">
-                    <h2>Оформлення замовлення</h2>
+                    <h2>Create an order</h2>
                 </div>
             </div>
         </div>
@@ -19,18 +19,18 @@
         <div class="billing_details">
             <div class="row">
                 <div class="col-lg-8">
-                    <h3>Деталі оплати</h3>
+                    <h3>Payment details</h3>
                     <form class="row contact_form" action="." method="post">
                         {% csrf_token %}
                         
                         <div class="col-md-6 form-group p_star">
-                            <label>Ім'я</label>
+                            <label>First name</label>
                             {{ form.first_name }}
                             {{ form.first_name.errors }}
                         </div>
 
                         <div class="col-md-6 form-group p_star">
-                            <label>Прізвище</label>
+                            <label>Last name</label>
                             {{ form.last_name }}
                             {{ form.last_name.errors }}
                         </div>
@@ -42,36 +42,36 @@
                         </div>
 
                         <div class="col-md-6 form-group p_star">
-                            <label>Телефон</label>
+                            <label>Phone number</label>
                             {{ form.phone }}
                             {{ form.phone.errors }}
                         </div>
 
                         <div class="col-md-12 form-group p_star">
-                            <label>Адреса доставки</label>
+                            <label>Adress</label>
                             {{ form.address }}
                             {{ form.address.errors }}
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <button type="submit" class="btn_3">Підтвердити замовлення</button>
+                            <button type="submit" class="btn_3">Confirm the order</button>
                         </div>
                     </form>
                 </div>
 
                 <div class="col-lg-4">
                     <div class="order_box">
-                        <h2>Ваше замовлення</h2>
+                        <h2>Your order</h2>
                         <ul class="list">
                             <li>
-                                <a href="#">Товар <span>Разом</span></a>
+                                <a href="#">Product <span>Overall</span></a>
                             </li>
                             <hr>
                             {% for item in cart_items %}
                             <li>
                                 <a href="#">{{ item.product.name }} 
                                     <span class="middle">x {{ item.quantity }}</span>
-                                    <span class="last">{{ item.total_price }} грн</span>
+                                    <span class="last">{{ item.total_price }} uah</span>
                                 </a>
                             </li>
                             {% endfor %}
@@ -80,8 +80,8 @@
                         <ul class="list list_2">
                             <hr>
                             <li>
-                                <a href="#">Загалом 
-                                    <span style="color: #ff3368; font-weight: bold;">{{ total_price }} грн</span>
+                                <a href="#">Overall 
+                                    <span style="color: #ff3368; font-weight: bold;">{{ total_price }} uah</span>
                                 </a>
                             </li>
                         </ul>

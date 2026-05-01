@@ -139,11 +139,11 @@ class ProductListViewTest(TestCase):
         self.assertEqual(products[3].name, "Шовкова наволочка")
 
     def test_search_no_results(self):
-        response = self.client.get(reverse('shop:product_list') + '?q=Мене тут немає')
+        response = self.client.get(reverse('shop:product_list') + '?q=NoneFound')
         products = response.context['products'] 
         
         self.assertEqual(len(products), 0)
-        self.assertContains(response, "За вашим запитом нічого не знайдено")
+        self.assertContains(response, "No products found")
 
 class CartTests(TestCase):
     def setUp(self):
@@ -152,7 +152,8 @@ class CartTests(TestCase):
             category=self.category, 
             name="Товар", 
             price=100.00, 
-            available=True
+            available=True,
+            stock=10
         )
 
     def test_add_to_cart(self):
@@ -183,7 +184,7 @@ class OrderCreateTests(TestCase):
         
         self.category = Category.objects.create(name="Тест")
         self.product = Product.objects.create(
-            category=self.category, name="Товар", price=100, available=True
+            category=self.category, name="Товар", price=100, available=True, stock=10
         )
 
     def test_order_form_initial_data(self):

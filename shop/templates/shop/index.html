@@ -48,20 +48,20 @@
 
                                 <div class="col-lg-5 col-sm-6">
                                     <div class="single_product_content">
-                                        <h5>Від {{ product.price }} грн</h5>
+                                        <h5>From {{ product.price }} uah</h5>
                                         <h2> 
                                             <a href="{% url 'shop:product_detail' product.id %}">
                                                 {{ product.name }}
                                             </a> 
                                         </h2>
-                                        <a href="{% url 'shop:product_detail' product.id %}" class="btn_3">Детальніше</a>
+                                        <a href="{% url 'shop:product_detail' product.id %}" class="btn_3">More</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {% empty %}
                         <div class="text-center">
-                            <p>Наразі немає акційних товарів.</p>
+                            <p>Products on sale not found.</p>
                         </div>
                     {% endfor %}
                 </div>
@@ -93,7 +93,7 @@
                             {% endif %}
                         </div>
                         <h3> <a href="{% url 'shop:product_detail' product.id %}">{{ product.name }}</a> </h3>
-                        <p>Від {{ product.price }} грн</p>
+                        <p>From {{ product.price }} uah</p>
                     </div>
                 </div>
                 {% endfor %}
