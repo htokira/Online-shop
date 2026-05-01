@@ -53,7 +53,7 @@
                     <p class="mb-0 ml-3">{{ product.price }} грн</p>
                 </div>
               <div class="add_to_cart mt-4">
-                  <a href="#" class="btn_3">Додати до корзини</a>
+                  <a href="{% url 'shop:cart_add_one' product.id %}" class="btn_3">Додати до корзини</a>
               </div>
             </div>
             
