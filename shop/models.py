@@ -6,10 +6,10 @@ from django.dispatch import receiver
 
 # Create your models here.
 class Category(models.Model):
-    name = models.CharField(max_length=50, verbose_name="Категорія")
+    name = models.CharField(max_length=50, verbose_name="Category")
 
     class Meta:
-        verbose_name_plural = "Категорії"
+        verbose_name_plural = "Categories"
 
     def __str__(self):
         return self.name
@@ -27,14 +27,14 @@ class Product(models.Model):
         return self.name
     
     class Meta:
-        verbose_name="Товар"
-        verbose_name_plural = "Товари"
+        verbose_name="Product"
+        verbose_name_plural = "Products"
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')
 
     def __str__(self):
-        return f"Кошик користувача {self.user.username}"
+        return f"Cart of a user {self.user.username}"
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
@@ -46,18 +46,18 @@ class CartItem(models.Model):
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('created', 'Створено'),
-        ('shipped', 'Відправлено'),
-        ('delivered', 'Доставлено'),
-        ('received', 'Отримано'),
+        ('created', 'Created'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+        ('received', 'Recieved'),
     ]
     status = models.CharField(
         max_length=20, 
         choices=STATUS_CHOICES, 
         default='created'
     )
-    email = models.EmailField(verbose_name="Електронна пошта")
-    phone = models.CharField(max_length=20, verbose_name="Номер телефону")
+    email = models.EmailField(verbose_name="Email")
+    phone = models.CharField(max_length=20, verbose_name="Phone number")
     user = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -66,11 +66,11 @@ class Order(models.Model):
     paid = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name = "Замовлення"
-        verbose_name_plural = "Замовлення"
+        verbose_name = "Order"
+        verbose_name_plural = "Orders"
 
     def __str__(self):
-        return f'Замовлення №{self.id}'
+        return f'Order №{self.id}'
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
@@ -86,7 +86,7 @@ class Profile(models.Model):
     phone_number = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
-        return f"Профіль: {self.user.username}"
+        return f"Profile: {self.user.username}"
     
 class Subscriber(models.Model):
     email = models.EmailField(unique=True)

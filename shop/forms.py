@@ -16,7 +16,7 @@ class UserRegisterForm(UserCreationForm):
         validators=[phone_regex], 
         max_length=17, 
         required=True, 
-        label="Номер телефону"
+        label="Phone number"
     )
 
     class Meta(UserCreationForm.Meta):
@@ -39,8 +39,8 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'email']
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your name'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your surname'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your first name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your last name'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
         }
 
