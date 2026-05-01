@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb_iner">
-                        <h2>product list</h2>
+                        <h2>Product list</h2>
                     </div>
                 </div>
             </div>
@@ -59,11 +59,11 @@
                             <div class="select_option">
                                 <div class="select_option_list">
                                     {% if current_sort == 'price_asc' %}
-                                        Від дешевих
+                                        From lowest price to highest
                                     {% elif current_sort == 'price_desc' %}
-                                        Від дорогих
+                                        From highest price to lowest
                                     {% else %}
-                                        Сортувати за
+                                        Sort by
                                     {% endif %}
                                     <i class="right fas fa-caret-down"></i>
                                 </div>
@@ -89,11 +89,11 @@
                                         {% endif %}
 
                                         <h3> <a href="{% url 'shop:product_detail' product.id %}">{{ product.name }}</a> </h3>
-                                        <p>{{ product.price }} грн</p>
+                                        <p>{{ product.price }} uah</p>
 
                                         <div class="add_to_cart_block" style="margin-top: 10px;">
                                             <a href="{% url 'shop:cart_add_one' product.id %}" class="btn_3" style="padding: 10px 20px; font-size: 12px; display: inline-block;">
-                                                + Додати в кошик
+                                                + Add to cart
                                             </a>
                                         </div>
                                         
@@ -101,7 +101,7 @@
                                 </div>
                             {% empty %}
                                 <div class="col-12 text-center mt-5 mb-5">
-                                    <h4>За вашим запитом нічого не знайдено</h4>
+                                    <h4>No products found</h4>
                                 </div>
                             {% endfor %}
                         </div>

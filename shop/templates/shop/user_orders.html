@@ -7,10 +7,10 @@
             <thead class="thead-light">
                 <tr>
                     <th>№</th>
-                    <th>Дата</th>
-                    <th>Сума</th>
-                    <th>Статус</th>
-                    <th>Дія</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,15 +18,15 @@
                 <tr>
                     <td>{{ order.id }}</td>
                     <td>{{ order.created|date:"d.m.Y H:i" }}</td>
-                    <td>{{ order.get_total_cost }} грн</td>
+                    <td>{{ order.get_total_cost }} uah</td>
                     <td>
                         <span class="badge badge-info">{{ order.get_status_display }}</span>
                     </td>
                     <td>
                         {% if order.status == 'delivered' %}
-                            <a href="{% url 'shop:confirm_order' order.id %}" class="btn btn-sm btn-success">Підтвердити</a>
+                            <a href="{% url 'shop:confirm_order' order.id %}" class="btn btn-sm btn-success">Confirm</a>
                         {% else %}
-                            <span class="text-muted">Очікуйте</span>
+                            <span class="text-muted">Wait for your order</span>
                         {% endif %}
                     </td>
                 </tr>
