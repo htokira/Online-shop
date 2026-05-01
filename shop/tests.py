@@ -184,7 +184,7 @@ class OrderCreateTests(TestCase):
         
         self.category = Category.objects.create(name="Тест")
         self.product = Product.objects.create(
-            category=self.category, name="Товар", price=100, available=True
+            category=self.category, name="Товар", price=100, available=True, stock=10
         )
 
     def test_order_form_initial_data(self):
