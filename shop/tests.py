@@ -139,11 +139,11 @@ class ProductListViewTest(TestCase):
         self.assertEqual(products[3].name, "Шовкова наволочка")
 
     def test_search_no_results(self):
-        response = self.client.get(reverse('shop:product_list') + '?q=Мене тут немає')
+        response = self.client.get(reverse('shop:product_list') + '?q=NoneFound')
         products = response.context['products'] 
         
         self.assertEqual(len(products), 0)
-        self.assertContains(response, "За вашим запитом нічого не знайдено")
+        self.assertContains(response, "No products found")
 
 class CartTests(TestCase):
     def setUp(self):
