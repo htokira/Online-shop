@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import JsonResponse
 
 # Додано Order в імпорт моделей
-from .models import Product, Category, Order, OrderItem 
+from .models import Product, Category, Order, OrderItem, Subscriber
 from .forms import UserRegisterForm, OrderCreateForm
 
 # --- Загальні сторінки ---
@@ -249,3 +250,16 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     return render(request, 'shop/single-product.html', {'product': product})
 
+def subscribe(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if email:
+            sub, created = Subscriber.objects.get_or_create(email=email)
+            if created:
+                messages.success(request, "You have successfully subscribed to the update!")
+            else:
+                messages.info(request, "This mail is already on the list of subscribers.")
+        else:
+            messages.error(request, "Please enter the correct email.")
+            
+    return redirect(request.META.get('HTTP_REFERER', 'shop:index'))

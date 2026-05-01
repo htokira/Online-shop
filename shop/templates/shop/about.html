@@ -82,7 +82,6 @@
     </section>
     <!-- feature part end -->
     
-    <!-- subscribe part here -->
     <section class="subscribe_part section_padding">
         <div class="container">
             <div class="row justify-content-center">
@@ -90,10 +89,18 @@
                     <div class="subscribe_part_content">
                         <h2>Get promotions & updates!</h2>
                         <p>Seamlessly empower fully researched growth strategies and interoperable internal or “organic” sources credibly innovate granular internal .</p>
+                        
                         <div class="subscribe_form">
-                            <input type="email" placeholder="Enter your mail">
-                            <a href="#" class="btn_1">Subscribe</a>
+                            <form action="{% url 'shop:subscribe' %}" method="POST" style="display: flex; width: 100%;">
+                                {% csrf_token %}
+                                <input type="email" name="email" placeholder="Enter your mail" required 
+                                       style="flex-grow: 1; border: 3px solid #f3f1f1; border-radius: 5px; background: transparent; padding-left: 20px;">
+                                <button type="submit" class="btn_1" style="border: none; cursor: pointer;">
+                                    Subscribe
+                                </button>
+                            </form>
                         </div>
+                        
                     </div>
                 </div>
             </div>
