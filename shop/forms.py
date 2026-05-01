@@ -33,3 +33,24 @@ class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['first_name', 'last_name','email', 'phone', 'address'] # Поля, які ми хочемо від юзера
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your name'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your surname'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+        }
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['phone_number']
+        widgets = {
+            'phone_number': forms.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': '+380...',
+            }),
+        }

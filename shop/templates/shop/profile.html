@@ -8,17 +8,21 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
-                        <h4>Кабінет</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="#">Мої замовлення</a></li>
-                            <li><a href="#">Налаштування</a></li>
-                            <li>
-                                <form action="{% url 'logout' %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn_3">Вийти</button>
-                                </form>
-                            </li>
-                        </ul>
+                        <h4 class="mb-3">Кабінет</h4>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'shop:user_orders' %}" class="btn_3 text-center w-100 mb-2" style="display: block;">
+                                Мої замовлення
+                            </a>
+
+                            <a href="{% url 'shop:profile_settings' %}" class="btn_3 text-center w-100 mb-2" style="display: block;">
+                                Налаштування
+                            </a>
+
+                            <form action="{% url 'logout' %}" method="post" class="w-100">
+                                {% csrf_token %}
+                                <button type="submit" class="btn_3 w-100">Вийти</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
